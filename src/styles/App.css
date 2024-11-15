@@ -1,0 +1,19 @@
+@import './Aside.css';
+@import './ElementLayout.css';
+@import 'styles/DefaultVariableValue.css';
+
+html, body {
+  margin  : 0;
+  padding : 0;
+}
+
+ul, li {
+  list-style: none;
+}
+
+main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,11 @@
+.element__container {
+  width: calc(100% - 200px);
+}
+
+.element__area {
+  display           : flex;
+  flex-direction    : row;
+  width             : 100%;
+  height            : 50vh;
+  background-color  : var(--background-light-gray);
+}
