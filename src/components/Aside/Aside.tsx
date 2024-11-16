@@ -16,7 +16,7 @@ function Aside() {
       <div style={{ backgroundColor: color }}>div</div>,
       'div'
     );
-  }, [addElement, getRandomColor]);
+  }, [addElement]);
 
   const handleAddSpan = useCallback(() => {
     const color = getRandomColor();
@@ -24,7 +24,7 @@ function Aside() {
       <span style={{ backgroundColor: color }}>span</span>,
       'span'
     );
-  }, [addElement, getRandomColor]);
+  }, [addElement]);
 
   const handleAddP = useCallback(() => {
     const color = getRandomColor();
@@ -32,7 +32,7 @@ function Aside() {
       <p style={{ backgroundColor: color }}>p</p>,
       'p'
     );
-  }, [addElement, getRandomColor]);
+  }, [addElement]);
 
   return (
     <aside>
@@ -72,7 +72,7 @@ function Aside() {
           {elementArray.map((element, index) => (
             <li className={element.active ? 'active' : ''} key={element.id}>
               <button
-                onClick={(event) => toggleActive(element.id, event.shiftKey)}
+                onClick={(event) =>  toggleActive(element.id, event.shiftKey)}
               >
                 {element.attribute}
               </button>
