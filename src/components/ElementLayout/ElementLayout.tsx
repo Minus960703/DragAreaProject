@@ -1,23 +1,22 @@
 import { ElementStateContext } from 'context';
-import React, { useContext, useEffect } from 'react'
+import { toSvg } from 'html-to-image';
+import React, { useContext, useEffect, useRef } from 'react'
 
-type Props = {}
-
-function ElementLayout({ }: Props) {
+function ElementLayout() {
   const { elementArray, elementSortVertical, toggleActive, groupElements, ungroupElements, groupElementSortVertical, handleDragStart, handleDrop } = useContext(ElementStateContext);
 
   const handleElementClick = (id: number, event: React.MouseEvent) => {
-    toggleActive(id, event.shiftKey); // Shift 키 상태 확인
+    toggleActive(id, event.shiftKey);
   };
+
+  const elementAreaRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.ctrlKey && event.key === 'g') {
-        // Ctrl + G: 그룹화
         groupElements();
         event.preventDefault();
       } else if (event.ctrlKey && event.shiftKey && event.key === 'G') {
-        // Ctrl + Shift + G: 그룹 해제
         ungroupElements();
         event.preventDefault();
       }
@@ -28,11 +27,28 @@ function ElementLayout({ }: Props) {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [groupElements, ungroupElements]);
+
+  const handleCapture = async () => {
+    if (elementAreaRef.current) {
+      try {
+        const svgDataUrl = await toSvg(elementAreaRef.current);
+        const link = document.createElement('a');
+        link.href = svgDataUrl;
+        link.download = `${Date.now()}_capture.svg`;
+        link.click();
+      } catch (error) {
+        console.error('SVG 캡처 오류:', error);
+      }
+    }
+  };
   
   return (
     <div className="element__container">
-      <button>Download as SVG</button>
-      <div className={`element__area ${elementSortVertical ? 'element__vertical' : 'element__horizontal'}`}>
+      <button onClick={handleCapture}>Download as SVG</button>
+      <div
+        className={`element__area ${elementSortVertical ? 'element__vertical' : 'element__horizontal'}`}
+        ref={elementAreaRef}
+      >
         {elementArray.map((element, index) => (
           <React.Fragment key={element.id}>
             <div
@@ -43,10 +59,10 @@ function ElementLayout({ }: Props) {
                 ${element.groupId && groupElementSortVertical ? 'grouped__vertical': 'grouped__horizontal'}
               `}
               draggable
-              onDragStart={() => handleDragStart(index)}
-              onDragOver={(e) => e.preventDefault()} // 기본 동작 방지
-              onDrop={() => handleDrop(index)} // 드롭 이벤트 처리
-              onClick={(event) => handleElementClick(element.id, event)}
+              onDragStart = {() => handleDragStart(index)}
+              onDragOver  = {(e) => e.preventDefault()}
+              onDrop      = {() => handleDrop(index)}
+              onClick     = {(event) => handleElementClick(element.id, event)}
             >
               {element.element}
             </div>
