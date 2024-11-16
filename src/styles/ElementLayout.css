@@ -4,8 +4,97 @@
 
 .element__area {
   display           : flex;
-  flex-direction    : row;
   width             : 100%;
-  height            : 50vh;
+  height            : 80vh;
   background-color  : var(--background-light-gray);
+  box-sizing        : border-box;
+  padding           : 10px;
+  overflow          : auto;
+}
+
+.element__area.element__vertical {
+  flex-direction    : column;
+}
+
+.element__area.element__horizontal {
+  flex-wrap         : wrap;
+  flex-direction    : row;
+  overflow-y        : auto;
+}
+
+.element__area > * {
+  box-sizing: border-box;
+}
+
+.element__area > div > div,
+.element__area > div > p,
+.element__area > div > span,
+.element__area > div:not(.active):not(.grouped) {
+  width             : 150px;
+  height            : 200px;
+  margin            : 0;
+}
+
+.element__area > div span {
+  display           : block;
+}
+
+.element__area.element__area.element__vertical > .active {
+  width             : max-content;
+}
+
+.element__area.element__horizontal > .active {
+  height            : max-content;
+}
+
+.element__area > .active {
+  border            : 2px solid #f08c00;
+}
+
+.element__area > .active > div,
+.element__area > .active > div > div,
+.element__area > .active > p,
+.element__area > .active > span {
+  width             : calc(150px - 2px * 2);
+  height            : calc(200px - 2px * 2);
+}
+
+.element__area > :not(.active).grouped > div > div,
+.element__area > :not(.active).grouped > div > p,
+.element__area > :not(.active).grouped > div > span {
+  width             : 150px;
+  height            : 200px;
+  margin            : 0;
+}
+
+.element__area > .grouped > div > span {
+  height            :  200px;
+}
+
+.element__area > .active.grouped {
+  display           : flex;
+  flex-wrap         : wrap;
+  border            : 2px solid #f08c00;
+}
+
+.element__area > .grouped {
+  width             : max-content;
+  height            : max-content;
+}
+
+.element__area > .grouped > div {
+  width             : max-content;
+}
+
+.element__area > .grouped.grouped__vertical > div {
+  height            : max-content;
+}
+
+.element__area > .active.grouped.grouped__vertical > div {
+  height            : max-content;
+}
+
+.element__area > .grouped.grouped__horizontal > div {
+  display           : flex;
+  flex-wrap         : wrap;
 }

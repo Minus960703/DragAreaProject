@@ -1,14 +1,38 @@
+import { getRandomColor } from 'api/getRandomColor';
 import { ElementStateContext } from 'context';
 import { useCallback, useContext } from 'react';
 
-type Props = {}
+function Aside() {
+  const { elementArray, addElement, elementSortVertical , sortAllElementSort, toggleActive, groupElementSortVertical, sortGroupElementSort } = useContext(ElementStateContext);
 
-function Aside({ }: Props) {
-  const { elementArray, addElement } = useContext(ElementStateContext);
+  const handleAllSortVertical     = () => elementSortVertical ? false : sortAllElementSort();
+  const handleAllSortHorizontal   = () => elementSortVertical ? sortAllElementSort() : false;
+  const handleGroupSortVertical   = () => groupElementSortVertical ? false : sortGroupElementSort();
+  const handleGroupSortHorizontal = () => groupElementSortVertical ? sortGroupElementSort() : false;
 
-  const handleAddDiv  = useCallback(() => addElement(<div>div</div>), []);
-  const handleAddSpan = useCallback(() => addElement(<span>span</span>), []);
-  const handleAddP    = useCallback(() => addElement(<p>p</p>), []);
+  const handleAddDiv = useCallback(() => {
+    const color = getRandomColor();
+    addElement(
+      <div style={{ backgroundColor: color }}>div</div>,
+      'div'
+    );
+  }, [addElement, getRandomColor]);
+
+  const handleAddSpan = useCallback(() => {
+    const color = getRandomColor();
+    addElement(
+      <span style={{ backgroundColor: color }}>span</span>,
+      'span'
+    );
+  }, [addElement, getRandomColor]);
+
+  const handleAddP = useCallback(() => {
+    const color = getRandomColor();
+    addElement(
+      <p style={{ backgroundColor: color }}>p</p>,
+      'p'
+    );
+  }, [addElement, getRandomColor]);
 
   return (
     <aside>
@@ -17,16 +41,16 @@ function Aside({ }: Props) {
           <h4>Align</h4>
           <ul>
             <li>
-              <button>All Vertically</button>
+              <button onClick={handleAllSortVertical}>All Vertically</button>
             </li>
             <li>
-              <button>All Horizontally</button>
+              <button onClick={handleAllSortHorizontal}>All Horizontally</button>
             </li>
             <li>
-              <button>Group Vertically</button>
+              <button onClick={handleGroupSortVertical}>Group Vertically</button>
             </li>
             <li>
-              <button>Group Horizontally</button>
+              <button onClick={handleGroupSortHorizontal}>Group Horizontally</button>
             </li>
           </ul>
         </div>
@@ -46,8 +70,12 @@ function Aside({ }: Props) {
         </div>
         <ul className="aside__element">
           {elementArray.map((element, index) => (
-            <li>
-              <button>{element.element}</button>
+            <li className={element.active ? 'active' : ''} key={element.id}>
+              <button
+                onClick={(event) => toggleActive(element.id, event.shiftKey)}
+              >
+                {element.attribute}
+              </button>
             </li>
           ))}
         </ul>
