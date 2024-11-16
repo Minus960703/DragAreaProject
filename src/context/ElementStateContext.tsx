@@ -4,7 +4,7 @@ interface ElementProps {
   id                      : number;
   index                   : number;
   element                 : ReactNode;
-  attribute               : 'div' | 'span' | 'p' | 'grouped element';
+  attribute               : 'div' | 'span' | 'p' | 'grouped element'; 
   active                  : boolean;
   groupId                ?: number;
 }
@@ -80,7 +80,6 @@ export const ElementStateProvider: FC<{ children: ReactNode }> = ({ children }) 
         </div>
       );
 
-      // 그룹 생성
       const newGroup: ElementProps = {
         id: groupId,
         index: Math.min(...activeIndices),
@@ -111,7 +110,7 @@ export const ElementStateProvider: FC<{ children: ReactNode }> = ({ children }) 
                   id: lastIdRef.current + 1 + index,
                   index: updatedElements.length,
                   element: child,
-                  attribute: 'div',
+                  attribute: child.props['children'],
                   active: false,
                 });
               }
@@ -140,7 +139,6 @@ export const ElementStateProvider: FC<{ children: ReactNode }> = ({ children }) 
       const [draggedElement] = updatedElements.splice(startIndex, 1);
       updatedElements.splice(index, 0, draggedElement);
 
-      // Index 재설정
       return updatedElements.map((el, idx) => ({ ...el, index: idx }));
     });
   }, []);
