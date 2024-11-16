@@ -19,6 +19,8 @@ interface ElementStateContextProps {
   toggleActive            : (id: ElementProps['id'], isShiftPressed: boolean) => void;
   groupElements           : () => void;
   ungroupElements         : () => void;
+  handleDragStart         : (index: number) => void;
+  handleDrop              : (index: number) => void;
 }
 
 export const ElementStateContext = createContext<ElementStateContextProps>({
@@ -31,6 +33,8 @@ export const ElementStateContext = createContext<ElementStateContextProps>({
   toggleActive            : () => { },
   groupElements           : () => { },
   ungroupElements         : () => { },
+  handleDragStart         : () => { },
+  handleDrop              : () => { },
 });
 
 export const ElementStateProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -128,6 +132,26 @@ export const ElementStateProvider: FC<{ children: ReactNode }> = ({ children }) 
     });
   }, []);
 
+  const handleDragStart = useCallback((index: number) => {
+    dragStartIndexRef.current = index;
+  }, []);
+
+  const handleDrop = useCallback((index: number) => {
+    const startIndex = dragStartIndexRef.current;
+    if (startIndex === null || startIndex === index) return;
+
+    setElementArray((prev) => {
+      const updatedElements = [...prev];
+      const [draggedElement] = updatedElements.splice(startIndex, 1);
+      updatedElements.splice(index, 0, draggedElement);
+
+      // Index 재설정
+      return updatedElements.map((el, idx) => ({ ...el, index: idx }));
+    });
+  }, []);
+
+  const dragStartIndexRef = useRef<number | null>(null);
+
   const sortAllElementSort    = () => setElementSortVertical((prev) => !prev);
   const sortGroupElementSort  = () => setGroupElementSortVertical((prev) => !prev);
 
@@ -144,7 +168,12 @@ export const ElementStateProvider: FC<{ children: ReactNode }> = ({ children }) 
   }, []);
 
   return (
-    <ElementStateContext.Provider value={{ elementArray, addElement, elementSortVertical, sortAllElementSort, toggleActive, groupElements, ungroupElements, groupElementSortVertical, sortGroupElementSort }}>
+    <ElementStateContext.Provider value={{
+      elementArray, addElement, elementSortVertical, sortAllElementSort,
+      toggleActive,
+      groupElements, ungroupElements, groupElementSortVertical, sortGroupElementSort,
+      handleDragStart, handleDrop
+    }}>
       {children}
     </ElementStateContext.Provider>
   );

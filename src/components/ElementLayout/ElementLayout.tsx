@@ -4,7 +4,7 @@ import React, { useContext, useEffect } from 'react'
 type Props = {}
 
 function ElementLayout({ }: Props) {
-  const { elementArray, elementSortVertical, toggleActive, groupElements, ungroupElements, groupElementSortVertical } = useContext(ElementStateContext);
+  const { elementArray, elementSortVertical, toggleActive, groupElements, ungroupElements, groupElementSortVertical, handleDragStart, handleDrop } = useContext(ElementStateContext);
 
   const handleElementClick = (id: number, event: React.MouseEvent) => {
     toggleActive(id, event.shiftKey); // Shift 키 상태 확인
@@ -42,6 +42,10 @@ function ElementLayout({ }: Props) {
                 ${element.groupId ? 'grouped' : ''}
                 ${element.groupId && groupElementSortVertical ? 'grouped__vertical': 'grouped__horizontal'}
               `}
+              draggable
+              onDragStart={() => handleDragStart(index)}
+              onDragOver={(e) => e.preventDefault()} // 기본 동작 방지
+              onDrop={() => handleDrop(index)} // 드롭 이벤트 처리
               onClick={(event) => handleElementClick(element.id, event)}
             >
               {element.element}
