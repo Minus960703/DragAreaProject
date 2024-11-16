@@ -50,14 +50,9 @@ export const ElementStateProvider: FC<{ children: ReactNode }> = ({ children }) 
         return prev.map((el) => ({ ...el, active: el.id === id }));
       }
 
-      const lastActiveIndex = prev.findIndex((el) => el.active);
-      const currentIndex = prev.findIndex((el) => el.id === id);
-
-      const [start, end] = [lastActiveIndex, currentIndex].sort((a, b) => a - b);
-
-      return prev.map((el, idx) => ({
+      return prev.map((el) => ({
         ...el,
-        active: idx >= start && idx <= end ? true : el.active,
+        active: el.id === id ? !el.active : el.active,
       }));
     });
   }, []);
