@@ -2,26 +2,18 @@ import { getRandomColor } from 'api/getRandomColor';
 import { ElementStateContext } from 'context';
 import { useCallback, useContext } from 'react';
 
-type Props = {}
+function Aside() {
+  const { elementArray, addElement, elementSortVertical , sortAllElementSort, toggleActive, groupElementSortVertical, sortGroupElementSort } = useContext(ElementStateContext);
 
-function Aside({ }: Props) {
-  const { elementArray, addElement, elementSortVertical , sortAllElementSort, toggleActive } = useContext(ElementStateContext);
-
-  const handleAllSortVertical = () => {
-    return elementSortVertical ? false : sortAllElementSort();
-  };
-  const handleAllSortHorizontal = () => {
-    return elementSortVertical ? sortAllElementSort() : false;
-  }
+  const handleAllSortVertical     = () => elementSortVertical ? false : sortAllElementSort();
+  const handleAllSortHorizontal   = () => elementSortVertical ? sortAllElementSort() : false;
+  const handleGroupSortVertical   = () => groupElementSortVertical ? false : sortGroupElementSort();
+  const handleGroupSortHorizontal = () => groupElementSortVertical ? sortGroupElementSort() : false;
 
   const handleAddDiv = useCallback(() => {
     const color = getRandomColor();
     addElement(
-      <div
-        style={{ backgroundColor: color }}
-      >
-        div
-      </div>,
+      <div style={{ backgroundColor: color }}>div</div>,
       'div'
     );
   }, [addElement, getRandomColor]);
@@ -29,11 +21,7 @@ function Aside({ }: Props) {
   const handleAddSpan = useCallback(() => {
     const color = getRandomColor();
     addElement(
-      <span
-        style={{ backgroundColor: color }}
-      >
-        span
-      </span>,
+      <span style={{ backgroundColor: color }}>span</span>,
       'span'
     );
   }, [addElement, getRandomColor]);
@@ -41,11 +29,7 @@ function Aside({ }: Props) {
   const handleAddP = useCallback(() => {
     const color = getRandomColor();
     addElement(
-      <p
-        style={{ backgroundColor: color }}
-      >
-        p
-      </p>,
+      <p style={{ backgroundColor: color }}>p</p>,
       'p'
     );
   }, [addElement, getRandomColor]);
@@ -63,10 +47,10 @@ function Aside({ }: Props) {
               <button onClick={handleAllSortHorizontal}>All Horizontally</button>
             </li>
             <li>
-              <button>Group Vertically</button>
+              <button onClick={handleGroupSortVertical}>Group Vertically</button>
             </li>
             <li>
-              <button>Group Horizontally</button>
+              <button onClick={handleGroupSortHorizontal}>Group Horizontally</button>
             </li>
           </ul>
         </div>
