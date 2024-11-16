@@ -26,17 +26,38 @@
   box-sizing: border-box;
 }
 
+.element__area > .active > div,
+.element__area > .active > p,
+.element__area > .active > span {
+  width             : calc(150px - 2px * 2);
+  height            : calc(200px - 2px * 2);
+}
+
+.element__area > .active.grouped > div > p {
+  width             : 150px;
+}
+
+.element__area > .active.grouped.grouped__vertical > div > p {
+  height            : 200px;
+}
+.element__area > .active.grouped.grouped__vertical > div > :first-child {
+  height            : calc(200px - 2px * 2);
+}
+
 .element__area > div > div,
 .element__area > div > p,
 .element__area > div > span,
 .element__area > div:not(.active):not(.grouped) {
   width             : 150px;
   height            : 200px;
-  margin            : 0;
 }
 
 .element__area > div span {
   display           : block;
+}
+
+.element__area > div p {
+  margin            : 0;
 }
 
 .element__area.element__area.element__vertical > .active {
@@ -68,13 +89,20 @@
 }
 
 .element__area > .grouped > div > span {
-  height            :  200px;
+  width             : 150px;
+  height            : 200px;
 }
 
 .element__area > .active.grouped {
   display           : flex;
   flex-wrap         : wrap;
   border            : 2px solid #f08c00;
+}
+.element__area > .active.grouped > div > div {
+  width             : 150px;
+}
+.element__area > .active.grouped > div > span {
+  height            : 200px;
 }
 
 .element__area > .grouped {
