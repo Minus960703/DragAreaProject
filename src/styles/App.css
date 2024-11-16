@@ -3,17 +3,19 @@
 @import 'styles/DefaultVariableValue.css';
 
 html, body {
-  margin  : 0;
-  padding : 0;
+  margin        : 0;
+  padding       : 0;
 }
 
 ul, li {
-  list-style: none;
+  list-style    : none;
+  margin        : 0;
+  padding       : 0;
 }
 
 main {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-wrap: wrap;
+  width         : 100vw;
+  height        : 100vh;
+  display       : flex;
+  flex-wrap     : wrap;
 }
